@@ -17,6 +17,9 @@ app.use("/api/chatbots", chatbotRoutes);
 const fileUploadRoutes = require("./routes/fileUploadRoutes");
 app.use("/api", fileUploadRoutes);
 
+const chatRoutes = require("./routes/chatRoutes");
+app.use("/api/chat", chatRoutes);
+
 
 
 app.get("/", (req, res) => {
