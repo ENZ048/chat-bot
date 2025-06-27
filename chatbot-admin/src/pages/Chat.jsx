@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
+import ReactMarkdown from "react-markdown";
 
 const ChatTest = () => {
   const [chatbotId, setChatbotId] = useState("");
@@ -10,7 +11,11 @@ const ChatTest = () => {
 
   useEffect(() => {
     const fetchChatbot = async () => {
-      const res = await axios.get(`${import.meta.env.VITE_API_BASE}/chatbot/client/${import.meta.env.VITE_TEST_CLIENT_ID}`);
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_BASE}/chatbot/client/${
+          import.meta.env.VITE_TEST_CLIENT_ID
+        }`
+      );
       if (res.data.length > 0) {
         setChatbotId(res.data[0]._id);
       }
@@ -27,16 +32,25 @@ const ChatTest = () => {
     setMessage("");
 
     try {
-      const res = await axios.post(`${import.meta.env.VITE_API_BASE}/chat/${chatbotId}`, { message });
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_BASE}/chat/${chatbotId}`,
+        { message }
+      );
       const botReply = { role: "bot", content: res.data.reply };
       setHistory((prev) => [...prev, botReply]);
     } catch {
-      setHistory((prev) => [...prev, { role: "bot", content: "❌ Server error." }]);
+      setHistory((prev) => [
+        ...prev,
+        { role: "bot", content: "❌ Server error." },
+      ]);
     }
   };
 
   useEffect(() => {
-    chatRef.current?.scrollTo({ top: chatRef.current.scrollHeight, behavior: "smooth" });
+    chatRef.current?.scrollTo({
+      top: chatRef.current.scrollHeight,
+      behavior: "smooth",
+    });
     inputRef.current?.focus();
   }, [history]);
 
@@ -46,11 +60,30 @@ const ChatTest = () => {
 
       <div ref={chatRef} style={chatContainer}>
         {history.map((msg, idx) => (
-          <div key={idx} style={{ ...bubbleBase, ...(msg.role === "user" ? bubbleUser : bubbleBot) }}>
+          <div
+            key={idx}
+            style={{
+              ...bubbleBase,
+              ...(msg.role === "user" ? bubbleUser : bubbleBot),
+            }}
+          >
             <div style={msg.role === "user" ? avatarRight : avatarLeft}>
               {msg.role === "user" ? "🧑" : "🤖"}
             </div>
-            <div style={text}>{msg.content}</div>
+            <div style={text}>
+              <ReactMarkdown
+                components={{
+                  strong: ({ children }) => (
+                    <strong style={{ color: "#333" }}>{children}</strong>
+                  ),
+                  li: ({ children }) => (
+                    <li style={{ marginBottom: "4px" }}>{children}</li>
+                  ),
+                }}
+              >
+                {msg.content}
+              </ReactMarkdown>
+            </div>
           </div>
         ))}
       </div>
@@ -64,7 +97,9 @@ const ChatTest = () => {
           onChange={(e) => setMessage(e.target.value)}
           style={input}
         />
-        <button type="submit" style={button}>➤</button>
+        <button type="submit" style={button}>
+          ➤
+        </button>
       </form>
     </div>
   );
@@ -82,12 +117,12 @@ const wrapper = {
   background: "#fff",
   border: "1px solid #eaeaea",
   display: "flex",
-  flexDirection: "column"
+  flexDirection: "column",
 };
 
 const heading = {
   textAlign: "center",
-  marginBottom: "12px"
+  marginBottom: "12px",
 };
 
 const chatContainer = {
@@ -97,33 +132,33 @@ const chatContainer = {
   padding: "16px",
   borderRadius: "10px",
   border: "1px solid #ddd",
-  marginBottom: "12px"
+  marginBottom: "12px",
 };
 
 const bubbleBase = {
   display: "flex",
   maxWidth: "80%",
-  marginBottom: "12px"
+  marginBottom: "12px",
 };
 
 const bubbleUser = {
   alignSelf: "flex-end",
   marginLeft: "auto",
-  flexDirection: "row-reverse"
+  flexDirection: "row-reverse",
 };
 
 const bubbleBot = {
-  alignSelf: "flex-start"
+  alignSelf: "flex-start",
 };
 
 const avatarLeft = {
   marginRight: "10px",
-  fontSize: "20px"
+  fontSize: "20px",
 };
 
 const avatarRight = {
   marginLeft: "10px",
-  fontSize: "20px"
+  fontSize: "20px",
 };
 
 const text = {
@@ -132,13 +167,13 @@ const text = {
   backgroundColor: "#e0f7fa",
   fontSize: "15px",
   lineHeight: "1.4",
-  whiteSpace: "pre-wrap"
+  whiteSpace: "pre-wrap",
 };
 
 const inputBox = {
   display: "flex",
   borderTop: "1px solid #eee",
-  paddingTop: "10px"
+  paddingTop: "10px",
 };
 
 const input = {
@@ -146,7 +181,7 @@ const input = {
   padding: "12px",
   borderRadius: "8px",
   border: "1px solid #ccc",
-  fontSize: "15px"
+  fontSize: "15px",
 };
 
 const button = {
@@ -157,7 +192,7 @@ const button = {
   borderRadius: "8px",
   color: "#fff",
   fontSize: "20px",
-  cursor: "pointer"
+  cursor: "pointer",
 };
 
 export default ChatTest;
