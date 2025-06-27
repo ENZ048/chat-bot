@@ -6,9 +6,9 @@ const User = require("./models/User");
 dotenv.config();
 
 mongoose.connect(process.env.MONGO_URI).then(async () => {
-  const passwordHash = await bcrypt.hash("admin123", 10);
+  const passwordHash = await bcrypt.hash("pratik", 10);
   const user = new User({
-    email: "admin@yourapp.com",
+    email: "pratik@gmail.com",
     passwordHash,
   });
   await user.save();

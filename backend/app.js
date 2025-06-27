@@ -20,6 +20,10 @@ app.use("/api", fileUploadRoutes);
 const chatRoutes = require("./routes/chatRoutes");
 app.use("/api/chat", chatRoutes);
 
+const adminRoutes = require("./routes/adminRoute");
+app.use("/api/admin", adminRoutes);
+
+
 
 
 app.get("/", (req, res) => {
