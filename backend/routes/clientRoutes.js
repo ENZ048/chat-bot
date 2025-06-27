@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const { createClient, getClients } = require("../controllers/clientController");
+const { createClient, getAllClients } = require("../controllers/clientController");
 const auth = require("../middleware/authMiddleware");
 
-router.post("/", auth, createClient);
-router.get("/", auth, getClients);
+router.post("/", createClient);   // ✅ create route
+router.get("/", getAllClients);
 
 module.exports = router;

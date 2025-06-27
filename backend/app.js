@@ -9,13 +9,14 @@ const authRoutes = require("./routes/authRoutes");
 app.use("/api/auth", authRoutes);
 
 const clientRoutes = require("./routes/clientRoutes");
-app.use("/api/clients", clientRoutes);
+app.use("/api/client", clientRoutes);
 
 const chatbotRoutes = require("./routes/chatbotRoutes");
-app.use("/api/chatbots", chatbotRoutes);
+app.use("/api/chatbot", chatbotRoutes);
 
-const fileUploadRoutes = require("./routes/fileUploadRoutes");
-app.use("/api", fileUploadRoutes);
+
+const uploadRoutes = require("./routes/uploadRoutes");
+app.use("/api/upload", uploadRoutes);
 
 const chatRoutes = require("./routes/chatRoutes");
 app.use("/api/chat", chatRoutes);

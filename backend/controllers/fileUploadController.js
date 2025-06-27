@@ -1,42 +1,18 @@
-const ChatbotData = require("../models/ChatbotData");
+const fs = require("fs");
+const Chatbot = require("../models/Chatbot");
 
 exports.uploadTxtFile = async (req, res) => {
   try {
-    const { chatbotId } = req.params;
+    const chatbotId = req.params.chatbotId;
+    const fileContent = fs.readFileSync(req.file.path, "utf-8");
 
-    if (!req.file || !req.file.buffer) {
-      return res.status(400).json({ message: "No file uploaded" });
-    }
+    const chatbot = await Chatbot.findByIdAndUpdate(chatbotId, {
+      dataText: fileContent
+    }, { new: true });
 
-    const rawText = req.file.buffer.toString("utf-8");
-
-    // If data already exists, update it. If not, create new.
-    const existing = await ChatbotData.findOne({ chatbotId });
-
-    if (existing) {
-      existing.rawText = rawText;
-      existing.updatedAt = new Date();
-      await existing.save();
-      res
-        .status(200)
-        .json({ message: "Text file updated", dataId: existing._id });
-    } else {
-      const entry = new ChatbotData({
-        chatbotId,
-        rawText,
-        source: "manual-upload",
-      });
-      await entry.save();
-      res
-        .status(201)
-        .json({ message: "Text file uploaded", dataId: entry._id });
-    }
-
-    res
-      .status(201)
-      .json({ message: "Text file uploaded and saved", dataId: entry._id });
+    res.json({ message: "File uploaded and data stored", chatbot });
   } catch (err) {
-    console.error("Upload error:", err.message);
-    res.status(500).json({ message: "File upload failed" });
+    console.error("Upload error:", err);
+    res.status(500).json({ message: "Upload failed" });
   }
 };

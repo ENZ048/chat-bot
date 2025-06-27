@@ -1,8 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const auth = require("../middleware/authMiddleware");
-const { chatWithBot } = require("../controllers/chatController");
+const { askChatbot } = require("../controllers/chatController");
 
-router.post("/:chatbotId", auth, chatWithBot);
+router.post("/:chatbotId", askChatbot);
 
 module.exports = router;

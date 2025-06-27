@@ -1,9 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const { createChatbot, getClientChatbots } = require("../controllers/chatbotController");
-const auth = require("../middleware/authMiddleware");
+const { createChatbot, getChatbotsByClient } = require("../controllers/chatbotController");
 
-router.post("/", auth, createChatbot);
-router.get("/:clientId", auth, getClientChatbots);
+router.post("/", createChatbot);
+router.get("/client/:clientId", getChatbotsByClient);
 
 module.exports = router;
