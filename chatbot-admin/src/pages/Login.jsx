@@ -17,34 +17,90 @@ const Login = () => {
       });
 
       localStorage.setItem("token", res.data.token);
-      navigate("/dashboard");
+      navigate("/clients");
     } catch (err) {
-      alert("Login failed. Check credentials.");
+      alert("❌ Login failed. Check credentials.");
     }
   };
 
   return (
-    <div style={{ maxWidth: "400px", margin: "100px auto" }}>
-      <h2>Admin Login</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        /><br /><br />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        /><br /><br />
-        <button type="submit">Login</button>
-      </form>
+    <div style={container}>
+      <div style={card}>
+        <h2 style={title}>🔐 Admin Login</h2>
+        <form onSubmit={handleSubmit} style={form}>
+          <input
+            type="email"
+            placeholder="Email address"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            style={input}
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            style={input}
+          />
+          <button type="submit" style={button}>Login</button>
+        </form>
+      </div>
     </div>
   );
+};
+
+const container = {
+  height: "100vh",
+  width: "100vw",
+  background: "linear-gradient(135deg, #f6f9fc, #e9efff)",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+};
+
+const card = {
+  background: "#fff",
+  padding: "40px",
+  borderRadius: "16px",
+  boxShadow: "0 8px 24px rgba(0,0,0,0.08)",
+  width: "100%",
+  maxWidth: "420px",
+  textAlign: "center",
+};
+
+const title = {
+  marginBottom: "24px",
+  fontSize: "24px",
+  fontWeight: "600",
+  color: "#333",
+};
+
+const form = {
+  display: "flex",
+  flexDirection: "column",
+  gap: "16px",
+};
+
+const input = {
+  padding: "12px 16px",
+  fontSize: "16px",
+  borderRadius: "8px",
+  border: "1px solid #ccc",
+  outline: "none",
+  transition: "border-color 0.2s",
+};
+
+const button = {
+  padding: "12px",
+  fontSize: "16px",
+  backgroundColor: "#007bff",
+  color: "#fff",
+  border: "none",
+  borderRadius: "8px",
+  cursor: "pointer",
+  fontWeight: "600",
 };
 
 export default Login;

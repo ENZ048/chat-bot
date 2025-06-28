@@ -4,6 +4,7 @@ import Dashboard from "./pages/Dashboard";
 import Clients from "./pages/Clients";
 import ChatbotManager from "./pages/ChatbotManager";
 import ChatTest from "./pages/Chat";
+import Widget from "./pages/Widget";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/clients" element={<Clients />} />
         <Route path="/clients/:clientId/chatbots" element={<ChatbotManager />} />
         <Route path="/test-chat" element={<ChatTest />} />
+        <Route path="/widget/:clientId" element={<Widget />} />
       </Routes>
     </Router>
   );

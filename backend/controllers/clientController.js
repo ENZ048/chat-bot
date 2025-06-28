@@ -17,9 +17,11 @@ exports.createClient = async (req, res) => {
 
 exports.getAllClients = async (req, res) => {
   try {
-    const clients = await Client.find();
+    const clients = await Client.find().populate("chatbot");
     res.json(clients);
   } catch (err) {
-    res.status(500).json({ message: "Error fetching clients" });
+    console.error("Error fetching clients:", err);
+    res.status(500).json({ message: "Failed to fetch clients" });
   }
 };
+

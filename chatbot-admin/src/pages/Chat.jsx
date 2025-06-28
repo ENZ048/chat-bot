@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import ReactMarkdown from "react-markdown";
+import { useParams } from "react-router-dom";
 
 const ChatTest = () => {
   const [chatbotId, setChatbotId] = useState("");
@@ -8,24 +9,37 @@ const ChatTest = () => {
   const [history, setHistory] = useState([]);
   const chatRef = useRef(null);
   const inputRef = useRef(null);
+  const { clientId } = useParams();
 
   useEffect(() => {
     const fetchChatbot = async () => {
-      const res = await axios.get(
-        `${import.meta.env.VITE_API_BASE}/chatbot/client/${
-          import.meta.env.VITE_TEST_CLIENT_ID
-        }`
-      );
-      if (res.data.length > 0) {
-        setChatbotId(res.data[0]._id);
+      try {
+        const res = await axios.get(
+          `${import.meta.env.VITE_API_BASE}/chatbot/client/${clientId}`
+        );
+        setChatbotId(res.data._id);
+      } catch (err) {
+        console.error("Error fetching chatbot:", err);
       }
     };
     fetchChatbot();
-  }, []);
+  }, [clientId]);
 
   const sendMessage = async (e) => {
     e.preventDefault();
     if (!message.trim()) return;
+
+    if (!chatbotId) {
+      console.error("Chatbot ID missing!");
+      setHistory((prev) => [
+        ...prev,
+        {
+          role: "bot",
+          content: "❌ Chatbot not initialized. Please try again later.",
+        },
+      ]);
+      return;
+    }
 
     const userMsg = { role: "user", content: message };
     setHistory((prev) => [...prev, userMsg]);
@@ -38,10 +52,11 @@ const ChatTest = () => {
       );
       const botReply = { role: "bot", content: res.data.reply };
       setHistory((prev) => [...prev, botReply]);
-    } catch {
+    } catch (err) {
+      console.error("Chat error:", err);
       setHistory((prev) => [
         ...prev,
-        { role: "bot", content: "❌ Server error." },
+        { role: "bot", content: "❌ Server error. Please try again." },
       ]);
     }
   };

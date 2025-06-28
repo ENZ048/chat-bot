@@ -3,7 +3,7 @@ const cors = require("cors");
 const app = express();
 const path = require("path");
 
-app.use(cors());
+app.use(cors({ origin: "http://localhost:5173" })); 
 app.use(express.json());
 
 const authRoutes = require("./routes/authRoutes");
@@ -13,11 +13,10 @@ const clientRoutes = require("./routes/clientRoutes");
 app.use("/api/client", clientRoutes);
 
 const chatbotRoutes = require("./routes/chatbotRoutes");
-app.use("/api/chatbot", chatbotRoutes);
+app.use("/api/chatbot", chatbotRoutes)
 
-
-const uploadRoutes = require("./routes/uploadRoutes");
-app.use("/api/upload", uploadRoutes);
+const fileRoutes = require("./routes/fileRoutes");
+app.use("/api/file", fileRoutes);
 
 const chatRoutes = require("./routes/chatRoutes");
 app.use("/api/chat", chatRoutes);
@@ -29,9 +28,6 @@ const widgetRoute = require("./routes/widgetRoute");
 app.use("/widget", widgetRoute);
 
 app.use("/widget", express.static(path.join(__dirname, "public/widget")));
-
-
-
 
 app.get("/", (req, res) => {
   res.send("Chatbot backend is running!");
