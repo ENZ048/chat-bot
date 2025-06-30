@@ -5,7 +5,11 @@ require("dotenv").config();
 
 const PORT = process.env.PORT || 5000;
 
-mongoose.connect(process.env.MONGO_URI, {
+// const uri = "mongodb+srv://pratik:pratik@2001@chatbot-db.dxcoel2.mongodb.net/?retryWrites=true&w=majority&appName=chatbot-db"
+
+
+console.log('Connecting to:', process.env.MONGO_URI);
+mongoose.connect(process.env.MONGO_URI , {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })

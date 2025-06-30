@@ -5,6 +5,7 @@ import Clients from "./pages/Clients";
 import ChatbotManager from "./pages/ChatbotManager";
 import ChatTest from "./pages/Chat";
 import Widget from "./pages/Widget";
+import './App.css'
 
 function App() {
   return (
